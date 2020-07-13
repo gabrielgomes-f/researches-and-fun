@@ -17,6 +17,9 @@
 # FAITH = Faith index
 # PDIF = Pattern Difference
 # GS = Gilbert Skill Score
+# P = Precision
+# R = Recall
+# F1 = F1 Score
 
 # Creating the functions
 ACC <- function(x){
@@ -173,7 +176,7 @@ F1 <- function(x){
   return(F1)
 }
 
-summary.measures <- function(x){
+summary.measures <- function(x, print){
   acc <- ACC(x)
   tpr <- TPR(x)
   tnr <- TNR(x)
@@ -185,20 +188,22 @@ summary.measures <- function(x){
   p <- P(x)
   r <- R(x)
   f1 <- F1(x)
-  cat(paste("The model performance measures are:",
-        paste("Accuracy (ACC):", round(acc,4)),
-        paste("True Positive Rate (TPR):",round(tpr,4)),
-        paste("True Negative Rate (TNR):",round(tnr,4)),
-        paste("Jaccard Index or Critical Sucess Index (CSI):",round(csi,4)),
-        paste("Sokal and Sneath Index (SSI):",round(ssi,4)),
-        paste("Faith Index (FAITH):",round(faith,4)),
-        paste("Pattern Difference (PDIF):",round(pdif,4)),
-        paste("Gilbert Skill Score (GS):",round(gs,4)),
-        paste("Precision (P):",round(p,4)),
-        paste("Recall (R):",round(r,4)),
-        paste("F1 Score (F1):",round(f1,4)),
-        sep = '\n'))
-  cat('\n\n\n')
+  if (print == TRUE){
+    cat(paste("The model performance measures are:",
+          paste("Accuracy (ACC):", round(acc,4)),
+          paste("True Positive Rate (TPR):",round(tpr,4)),
+          paste("True Negative Rate (TNR):",round(tnr,4)),
+          paste("Jaccard Index or Critical Sucess Index (CSI):",round(csi,4)),
+          paste("Sokal and Sneath Index (SSI):",round(ssi,4)),
+          paste("Faith Index (FAITH):",round(faith,4)),
+          paste("Pattern Difference (PDIF):",round(pdif,4)),
+          paste("Gilbert Skill Score (GS):",round(gs,4)),
+          paste("Precision (P):",round(p,4)),
+          paste("Recall (R):",round(r,4)),
+          paste("F1 Score (F1):",round(f1,4)),
+          sep = '\n'))
+    cat('\n\n\n')
+  }
   return(data.frame(ACC = acc,
                     TPR = tpr,
                     TNR = tnr,
