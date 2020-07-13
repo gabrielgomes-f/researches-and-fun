@@ -131,6 +131,48 @@ GS <- function(x){
   return(GS)
 }
 
+P <- function(x){
+  if (dim(x)[1] != dim(x)[2] && dim(x)[1]!=2){
+    print("Error. A quadratic matrix is required")
+  }
+  else{
+    TP = x[1,1]
+    TN = x[2,2]
+    FP = x[1,2]
+    FN = x[2,1]
+    P = TP / (TP + FP)
+  }
+  return(P)
+}
+
+R <- function(x){
+  if (dim(x)[1] != dim(x)[2] && dim(x)[1]!=2){
+    print("Error. A quadratic matrix is required")
+  }
+  else{
+    TP = x[1,1]
+    TN = x[2,2]
+    FP = x[1,2]
+    FN = x[2,1]
+    R = TP / (TP + FN)
+  }
+  return(R)
+}
+
+F1 <- function(x){
+  if (dim(x)[1] != dim(x)[2] && dim(x)[1]!=2){
+    print("Error. A quadratic matrix is required")
+  }
+  else{
+    TP = x[1,1]
+    TN = x[2,2]
+    FP = x[1,2]
+    FN = x[2,1]
+    F1 = (2 * (TP / (TP + FN)) * (TP / (TP + FP)) ) / ((TP / (TP + FN)) + (TP / (TP + FP)))
+  }
+  return(F1)
+}
+
 summary.measures <- function(x){
   acc <- ACC(x)
   tpr <- TPR(x)
@@ -140,6 +182,9 @@ summary.measures <- function(x){
   faith <- FAITH(x)
   pdif <- PDIF(x)
   gs <- GS(x)
+  p <- P(x)
+  r <- R(x)
+  f1 <- F1(x)
   cat(paste("The model performance measures are:",
         paste("Accuracy (ACC):", round(acc,4)),
         paste("True Positive Rate (TPR):",round(tpr,4)),
@@ -148,7 +193,11 @@ summary.measures <- function(x){
         paste("Sokal and Sneath Index (SSI):",round(ssi,4)),
         paste("Faith Index (FAITH):",round(faith,4)),
         paste("Pattern Difference (PDIF):",round(pdif,4)),
-        paste("Gilbert Skill Score (GS):",round(gs,4)),sep = '\n'))
+        paste("Gilbert Skill Score (GS):",round(gs,4)),
+        paste("Precision (P):",round(p,4)),
+        paste("Recall (R):",round(r,4)),
+        paste("F1 Score (F1):",round(f1,4)),
+        sep = '\n'))
   cat('\n\n\n')
   return(data.frame(ACC = acc,
                     TPR = tpr,
@@ -157,5 +206,8 @@ summary.measures <- function(x){
                     SSI = ssi,
                     FAITH = faith,
                     PDIF = pdif,
-                    GS = gs))
+                    GS = gs,
+                    P = p,
+                    R = r,
+                    F1 = f1))
 }
