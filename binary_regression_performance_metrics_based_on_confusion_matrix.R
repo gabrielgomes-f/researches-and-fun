@@ -1,4 +1,4 @@
-# Performance metrics for binary regressions
+# Performance metrics for binary regressions based on confusion matrix
 # Only working with 2x2 matrix
 
 # Notes:
@@ -115,7 +115,7 @@ PDIF <- function(x){
     TN = x[2,2]
     FP = x[1,2]
     FN = x[2,1]
-    PDIF = (4 * FP * FN) / (TP + FP + FN + TN)^2
+    PDIF = 1 - ((4 * FP * FN) / (TP + FP + FN + TN)^2)
   }
   return(PDIF)
 }
@@ -176,7 +176,21 @@ F1 <- function(x){
   return(F1)
 }
 
-summary.measures <- function(x, print){
+MCC <- function(x){
+  if (dim(x)[1] != dim(x)[2] && dim(x)[1]!=2){
+    print("Error. A quadratic matrix is required")
+  }
+  else{
+    TP = x[1,1]
+    TN = x[2,2]
+    FP = x[1,2]
+    FN = x[2,1]
+    MCC = ((TP * TN) - (FP * FN)) / (sqrt( (TP+FP) * (TP+FN) * (TN+FP) * (TN+FN) ))
+  }
+  return(MCC)
+}
+
+summary.measures <- function(x, print = TRUE){
   acc <- ACC(x)
   tpr <- TPR(x)
   tnr <- TNR(x)
@@ -188,20 +202,22 @@ summary.measures <- function(x, print){
   p <- P(x)
   r <- R(x)
   f1 <- F1(x)
-  if (print == TRUE){
+  mcc <- MCC(x)
+  if( print == TRUE){
     cat(paste("The model performance measures are:",
-          paste("Accuracy (ACC):", round(acc,4)),
-          paste("True Positive Rate (TPR):",round(tpr,4)),
-          paste("True Negative Rate (TNR):",round(tnr,4)),
-          paste("Jaccard Index or Critical Sucess Index (CSI):",round(csi,4)),
-          paste("Sokal and Sneath Index (SSI):",round(ssi,4)),
-          paste("Faith Index (FAITH):",round(faith,4)),
-          paste("Pattern Difference (PDIF):",round(pdif,4)),
-          paste("Gilbert Skill Score (GS):",round(gs,4)),
-          paste("Precision (P):",round(p,4)),
-          paste("Recall (R):",round(r,4)),
-          paste("F1 Score (F1):",round(f1,4)),
-          sep = '\n'))
+              paste("Accuracy (ACC):", round(acc,4)),
+              paste("True Positive Rate (TPR):",round(tpr,4)),
+              paste("True Negative Rate (TNR):",round(tnr,4)),
+              paste("Jaccard Index or Critical Sucess Index (CSI):",round(csi,4)),
+              paste("Sokal and Sneath Index (SSI):",round(ssi,4)),
+              paste("Faith Index (FAITH):",round(faith,4)),
+              paste("Pattern Difference (PDIF):",round(pdif,4)),
+              paste("Gilbert Skill Score (GS):",round(gs,4)),
+              paste("Precision (P):",round(p,4)),
+              paste("Recall (R):",round(r,4)),
+              paste("F1 Score (F1):",round(f1,4)),
+              paste("Matthews Correlation Coefficient (MCC):",round(mcc,4)),
+              sep = '\n'))
     cat('\n\n\n')
   }
   return(data.frame(ACC = acc,
@@ -214,5 +230,6 @@ summary.measures <- function(x, print){
                     GS = gs,
                     P = p,
                     R = r,
-                    F1 = f1))
+                    F1 = f1,
+                    MCC = mcc))
 }
