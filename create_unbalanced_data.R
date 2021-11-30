@@ -16,11 +16,11 @@ normalize.data <- function(x){
 
 
 create.unbalanced.data <- function( sample.size = 1000, beta.0 = 0.5, betas = c(1, 1.5, -1, -1.5, 0.5), lambda = 1, treshold = 'random'){
-  x1 <- normalize.data(runif(sample.size, -4, 4))
-  x2 <- normalize.data(runif(sample.size, -3, 3))
-  x3 <- normalize.data(runif(sample.size, -2, 2))
-  x4 <- normalize.data(runif(sample.size, 0, 2))
-  x5 <- normalize.data(rnorm(sample.size, 0, 1))
+  X1 <- normalize.data(runif(sample.size, -4, 4))
+  X2 <- normalize.data(runif(sample.size, -3, 3))
+  X3 <- normalize.data(runif(sample.size, -2, 2))
+  X4 <- normalize.data(runif(sample.size, 0, 2))
+  X5 <- normalize.data(rnorm(sample.size, 0, 1))
   simulated.data <- data.frame(x1, x2, x3, x4, x5)
   
   simulated.probability <- plogis( beta.0 + as.matrix(simulated.data) %*% betas) ** lambda
