@@ -1,0 +1,56 @@
+# Setting seed and installing necessaries packages ----
+library(devtools)
+
+# Importando as funções de cálculo de métricas baseadas na matriz de confusão
+source_url("https://raw.githubusercontent.com/gabrielgomes-f/researches-and-fun/master/binary_regression_performance_metrics_based_on_confusion_matrix.R")
+# Importando as funções de criação da base simulada
+source_url("https://raw.githubusercontent.com/gabrielgomes-f/researches-and-fun/master/create_unbalanced_data.R")
+# Importando as funções para simulação em modelos pré-definidos
+source_url("https://raw.githubusercontent.com/gabrielgomes-f/researches-and-fun/master/predefined_model_metrics.R")
+
+
+library(philentropy)
+set.seed(123)
+
+# Getting the parameters inputs ----
+N = 10000                          # Number of replicas
+sample.size <- c(1000)             # Size of the samples in each replica
+
+# Creating the necessarie variables ----
+logistic.metrics <- list()
+randomforest.metrics <- list()
+real.ProbMean <- list()
+dataset <- list()
+
+# Running the simulation ----
+for (j in 1:N){ 
+  data <- list()
+  train <- list()
+  test <- list()
+  # Generating the random data ----
+  for (i in 1:length(sample.size)){
+    data[[i]] <- create.unbalanced.data(sample.size = sample.size[i], lambda = 4)
+  }
+
+  # Adjusting the logistic and the random forest model por our simulated data ----
+
+  for (i in 1:length(data)){
+    # Separating into train and test data
+    train.index <- sample(1:sample.size[i], sample.size[i]*0.8)
+    train[[i]] <- data[[i]][train.index,]
+    test[[i]] <- data[[i]][-train.index,]
+    
+    logistic.metrics[[j]] <- logistic.model.metrics(Y ~ X1 + X2 + X3 + X4 + X5, train[[i]], test[[i]])
+    
+    randomforest.metrics[[j]] <- randomforest.model.metrics(Y ~ X1 + X2 + X3 + X4 + X5, train[[i]], test[[i]])
+    
+    real.ProbMean[[j]] <- mean(test[[i]]$p)
+  }
+  print(j)
+  dataset[[j]] <- data
+} 
+
+logistic.metrics <- do.call(rbind.data.frame, logistic.metrics)
+randomforest.metrics <- do.call(rbind.data.frame, randomforest.metrics)
+real.ProbMean <- do.call(rbind.data.frame, real.ProbMean)
+names(real.ProbMean) <- "real_ProbMean"
