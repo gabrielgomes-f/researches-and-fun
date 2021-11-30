@@ -20,6 +20,7 @@
 # P = Precision
 # R = Recall
 # F1 = F1 Score
+# MCC = Matthews Correlation Coefficient
 
 # Creating the functions
 ACC <- function(x){
