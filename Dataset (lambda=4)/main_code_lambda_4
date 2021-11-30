@@ -1,11 +1,11 @@
 # Setting seed and installing necessaries packages ----
 library(devtools)
 
-# Importando as funções de cálculo de métricas baseadas na matriz de confusão
+# Importando as funÃ§Ãµes de cÃ¡lculo de mÃ©tricas baseadas na matriz de confusÃ£o
 source_url("https://raw.githubusercontent.com/gabrielgomes-f/researches-and-fun/master/binary_regression_performance_metrics_based_on_confusion_matrix.R")
-# Importando as funções de criação da base simulada
+# Importando as funÃ§Ãµes de criaÃ§Ã£o da base simulada
 source_url("https://raw.githubusercontent.com/gabrielgomes-f/researches-and-fun/master/create_unbalanced_data.R")
-# Importando as funções para simulação em modelos pré-definidos
+# Importando as funÃ§Ãµes para simulaÃ§Ã£o em modelos prÃ©-definidos
 source_url("https://raw.githubusercontent.com/gabrielgomes-f/researches-and-fun/master/predefined_model_metrics.R")
 
 
