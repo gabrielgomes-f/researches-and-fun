@@ -21,7 +21,7 @@ create.unbalanced.data <- function( sample.size = 1000, beta.0 = 0.5, betas = c(
   X3 <- normalize.data(runif(sample.size, -2, 2))
   X4 <- normalize.data(runif(sample.size, 0, 2))
   X5 <- normalize.data(rnorm(sample.size, 0, 1))
-  simulated.data <- data.frame(x1, x2, x3, x4, x5)
+  simulated.data <- data.frame(X1, X2, X3, X4, X5)
   
   simulated.probability <- plogis( beta.0 + as.matrix(simulated.data) %*% betas) ** lambda
   
