@@ -1,2 +1,4 @@
 # researches-and-fun
 Repository dedicated to share some of my interests :)
+
+- Masters Dissertation: a review of the main metrics for model evaluation, and a proposal on how to analyze model performance in unbalanced situations.
