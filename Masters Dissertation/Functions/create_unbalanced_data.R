@@ -1,3 +1,6 @@
+# Create a simulated dataset for binary regression
+# Only working with 5 independent variables
+
 normalize.data <- function(x){
   if (length(x) > 1){
     x.mean = mean(x)
@@ -12,7 +15,6 @@ normalize.data <- function(x){
 }
 
 
-# Only works for 5 independent variables
 create.unbalanced.data <- function( sample.size = 1000, beta.0 = 0.5, betas = c(1, 1.5, -1, -1.5, 0.5), lambda = 1, treshold = 'random'){
   X1 <- normalize.data(runif(sample.size, -4, 4))
   X2 <- normalize.data(runif(sample.size, -3, 3))
@@ -37,6 +39,3 @@ create.unbalanced.data <- function( sample.size = 1000, beta.0 = 0.5, betas = c(
   
   return(simulated.data)
 }
-
-
-
